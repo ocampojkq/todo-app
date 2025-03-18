@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
+import "./index.css"; // Import CSS file for styling
 
 const TodoApp = () => {
   const [tasks, setTasks] = useState(() => {
-    // Load tasks from localStorage when the app starts
     const savedTasks = localStorage.getItem("tasks");
     return savedTasks ? JSON.parse(savedTasks) : [];
   });
 
   const [input, setInput] = useState("");
 
-  // Save tasks to localStorage whenever tasks change
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -26,20 +25,25 @@ const TodoApp = () => {
   };
 
   return (
-    <div>
-      <h1>To-Do List</h1>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button onClick={addTask}>Add To Do</button>
-      <ul>
+    <div className="todo-container">
+      <h1 className="title">To-Do List</h1>
+      <div className="input-container">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Enter a task..."
+        />
+        <button className="add-btn" onClick={addTask}>
+          Add
+        </button>
+      </div>
+      <ul className="task-list">
         {tasks.map((task, index) => (
-          <li key={index}>
-            {task}{" "}
-            <button onClick={() => removeTask(index)} className="btn-delete">
-              Delete
+          <li key={index} className="task-item">
+            {task}
+            <button className="delete-btn" onClick={() => removeTask(index)}>
+              ✖
             </button>
           </li>
         ))}
